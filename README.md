@@ -10,7 +10,7 @@ Inspiration came from a blog post in Medium.
 ### Characteristics
 
 - System container based on Arch Linux
-- Includes all necessary packages and configurations (git, ssh keys, vim with plugins, tmux...)
+- Includes all necessary packages and configurations (git, vim with plugins, tmux...)
 - Meant to be long-lived
 - Working codebase is shared from host via volumes
 
@@ -35,6 +35,3 @@ You need one of those on you local machine, for sure. There are several alternat
 > OCI develops runC, a container runtime that implements their specification and serves as a basis for other higher-level tools.
 >
 > [Wikipedia](https://en.wikipedia.org/wiki/Open_Container_Initiative)
-
-#### How to manage secrets?
-ansible-vault in combination with the CI service can be good enough.
