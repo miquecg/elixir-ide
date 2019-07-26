@@ -1,9 +1,9 @@
 # elixir-ide
 This project is an attempt to create a portable Elixir development environment distributed as a container image and aimed towards usage of terminal tools for editing. It's also an important goal to achieve a high degree of automation during the whole lifecycle of the environment.
 
-Inspiration came from a [blog post in Medium](https://medium.com/@ls12styler/docker-as-an-integrated-development-environment-95bc9b01d2c1).
+Inspiration came from a blog post in Medium.
 
-> **Docker as an Integrated Development Environment**
+> [Docker as an Integrated Development Environment](https://medium.com/@ls12styler/docker-as-an-integrated-development-environment-95bc9b01d2c1)
 >
 > Building a portable IDE to run anywhere (as long as you’ve got Docker)
 
@@ -32,11 +32,9 @@ https://docs.ansible.com/ansible/latest/plugins/connection.html
 #### What about container runtimes?
 You need one of those on you local machine, for sure. There are several alternatives to choose from that are suitable for system containers: LXC/LXD, OpenVZ or runC. The latter is the reference runtime implementation from the Open Container Initiative and other tools are based on it (e.g. [Docker since version 1.11.0](https://github.com/rkt/rkt/blob/master/Documentation/rkt-vs-other-projects.md#process-model)\).
 
-> OCI develops runC, a container runtime that implements their specification and serves as a basis for other higher-level tools. [1]
+> OCI develops runC, a container runtime that implements their specification and serves as a basis for other higher-level tools.
+>
+> [Wikipedia](https://en.wikipedia.org/wiki/Open_Container_Initiative)
 
 #### How to manage secrets?
 ansible-vault in combination with the CI service can be good enough.
-
----
-
-[1] https://en.wikipedia.org/wiki/Open_Container_Initiative
