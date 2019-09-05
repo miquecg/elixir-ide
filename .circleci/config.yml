@@ -1,8 +1,23 @@
 version: 2
 jobs:
   build:
-    docker:
-      - image: circleci/ruby:2.4.1
+    machine:
+      image: ubuntu-1604:201903-01
     steps:
-      - checkout
-      - run: echo "A first hello"
+      - run:
+          name: Setup environment variables
+          command: |
+            echo 'export DATE=$(date +"%Y.%m.01")' >> $BASH_ENV
+            echo 'export ARCHITECTURE="x86_64"' >> $BASH_ENV
+            echo 'export FILENAME="archlinux-bootstrap-${DATE}-${ARCHITECTURE}.tar.gz"' >> $BASH_ENV
+            echo 'export URL_PATH="https://archive.archlinux.org/iso/${DATE}"' >> $BASH_ENV
+      - run:
+          name: Download Arch Linux bootstrap tarball
+          command: >
+            wget
+            ${URL_PATH}/${FILENAME}
+            ${URL_PATH}/${FILENAME}.sig
+            ${URL_PATH}/sha1sums.txt
+      - run:
+          name: Check file integrity
+          command: grep $FILENAME sha1sums.txt | sha1sum -c -
