@@ -1,5 +1,7 @@
 superuser: &sudo_shell
-  shell: sudo /bin/bash -eo pipefail
+  shell: sudo -EH /bin/bash -leo pipefail
+  environment:
+    - BASH_ENV: "~/.profile"
 
 version: 2
 jobs:
@@ -15,6 +17,7 @@ jobs:
             echo 'export FILENAME="archlinux-bootstrap-${DATE}-${ARCHITECTURE}.tar.gz"' >> $BASH_ENV
             echo 'export URL_PATH="https://archive.archlinux.org/iso/${DATE}"' >> $BASH_ENV
             echo 'export CONTAINER="arch"' >> $BASH_ENV
+            cat < $BASH_ENV | sudo tee -a /root/.profile
       - run:
           name: Download Arch Linux bootstrap tarball
           command: >
