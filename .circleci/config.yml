@@ -45,3 +45,12 @@ jobs:
             tar xz -f $FILENAME --strip-components=1 -C $ROOT_FS
             buildah config --cmd /bin/bash $CONTAINER
             buildah unmount $CONTAINER
+      - run:
+          name: Create image from container and push it to registry
+          <<: *sudo_shell
+          command: |
+            echo $REGISTRY_PWD | buildah login -u $REGISTRY_USER --password-stdin $REGISTRY
+            buildah commit $CONTAINER docker://${REGISTRY}/${REPOSITORY}:${DATE}
+      - run:
+          name: Inspect result
+          command: sudo skopeo inspect docker://${REGISTRY}/${REPOSITORY}:${DATE}
