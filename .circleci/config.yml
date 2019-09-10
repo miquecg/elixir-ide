@@ -1,3 +1,6 @@
+superuser: &sudo_shell
+  shell: sudo /bin/bash -eo pipefail
+
 version: 2
 jobs:
   build:
@@ -24,7 +27,7 @@ jobs:
           command: grep $FILENAME sha1sums.txt | sha1sum -c -
       - run:
           name: Add projectatomic repository
-          shell: sudo /bin/bash -eo pipefail
+          <<: *sudo_shell
           command: |
             apt-get update -qq
             apt-get install -qq software-properties-common
@@ -35,7 +38,7 @@ jobs:
           command: sudo apt-get -qq install buildah
       - run:
           name: Extract tarball to a new empty container
-          shell: sudo /bin/bash -eo pipefail
+          <<: *sudo_shell
           command: |
             buildah from --name $CONTAINER scratch
             ROOT_FS=$(buildah mount $CONTAINER)
