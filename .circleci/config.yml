@@ -11,6 +11,7 @@ jobs:
             echo 'export ARCHITECTURE="x86_64"' >> $BASH_ENV
             echo 'export FILENAME="archlinux-bootstrap-${DATE}-${ARCHITECTURE}.tar.gz"' >> $BASH_ENV
             echo 'export URL_PATH="https://archive.archlinux.org/iso/${DATE}"' >> $BASH_ENV
+            echo 'export CONTAINER="arch"' >> $BASH_ENV
       - run:
           name: Download Arch Linux bootstrap tarball
           command: >
@@ -32,3 +33,12 @@ jobs:
       - run:
           name: Install buildah
           command: sudo apt-get -qq install buildah
+      - run:
+          name: Extract tarball to a new empty container
+          shell: sudo /bin/bash -eo pipefail
+          command: |
+            buildah from --name $CONTAINER scratch
+            ROOT_FS=$(buildah mount $CONTAINER)
+            tar xz -f $FILENAME --strip-components=1 -C $ROOT_FS
+            buildah config --cmd /bin/bash $CONTAINER
+            buildah unmount $CONTAINER
