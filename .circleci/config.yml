@@ -29,13 +29,13 @@ jobs:
           name: Add projectatomic repository
           <<: *sudo_shell
           command: |
-            apt-get update -qq
-            apt-get install -qq software-properties-common
+            apt-get update
+            apt-get -y install software-properties-common
             add-apt-repository -y ppa:projectatomic/ppa
-            apt-get update -qq
+            apt-get update
       - run:
           name: Install buildah
-          command: sudo apt-get -qq install buildah
+          command: sudo apt-get -y install buildah
       - run:
           name: Extract tarball to a new empty container
           <<: *sudo_shell
