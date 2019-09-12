@@ -13,21 +13,22 @@ jobs:
           name: Setup environment variables
           command: |
             FIRST_OF_MONTH_DATE=$(date +'%Y.%m.01')
-            echo "export FILENAME=archlinux-bootstrap-${FIRST_OF_MONTH_DATE}-x86_64.tar.gz" >> $BASH_ENV
-            echo "export URL_PATH=https://archive.archlinux.org/iso/${FIRST_OF_MONTH_DATE}" >> $BASH_ENV
+            echo "export BASE_URL=https://archive.archlinux.org/iso/${FIRST_OF_MONTH_DATE}/" >> $BASH_ENV
+            echo "export TARBALL=archlinux-bootstrap-${FIRST_OF_MONTH_DATE}-x86_64.tar.gz" >> $BASH_ENV
+            echo "export SHA1SUMS=sha1sums.txt" >> $BASH_ENV
             echo "export CONTAINER=arch" >> $BASH_ENV
             echo "export IMAGE_REF=${REGISTRY}/${REPOSITORY}:${FIRST_OF_MONTH_DATE}" >> $BASH_ENV
             cat < $BASH_ENV | sudo tee -a /root/.profile
       - run:
-          name: Download Arch Linux bootstrap tarball
-          command: >
-            wget
-            ${URL_PATH}/${FILENAME}
-            ${URL_PATH}/${FILENAME}.sig
-            ${URL_PATH}/sha1sums.txt
+          name: Download Arch Linux bootstrap tarball and checksum
+          command: |
+            cat <<EOF | wget --base="$BASE_URL" -i -
+            $TARBALL
+            $SHA1SUMS
+            EOF
       - run:
           name: Check file integrity
-          command: grep $FILENAME sha1sums.txt | sha1sum -c -
+          command: grep $TARBALL $SHA1SUMS | sha1sum -c -
       - run:
           name: Add projectatomic repository
           <<: *sudo_shell
@@ -45,7 +46,7 @@ jobs:
           command: |
             buildah from --name $CONTAINER scratch
             ROOT_FS=$(buildah mount $CONTAINER)
-            tar xz -f $FILENAME --strip-components=1 -C $ROOT_FS
+            tar xz -f $TARBALL --strip-components=1 -C $ROOT_FS
             buildah config --cmd /bin/bash $CONTAINER
             buildah unmount $CONTAINER
       - run:
