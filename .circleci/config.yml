@@ -18,6 +18,7 @@ jobs:
             echo "export SHA1SUMS=sha1sums.txt" >> $BASH_ENV
             echo "export CONTAINER=arch" >> $BASH_ENV
             echo "export IMAGE_REF=docker://${REGISTRY}/${REPOSITORY}:${FIRST_OF_MONTH_DATE}" >> $BASH_ENV
+            echo "export REGISTRY_AUTH_FILE=${CIRCLE_WORKING_DIRECTORY}/auth.json" >> $BASH_ENV
             cat < $BASH_ENV | sudo tee -a /root/.profile
       - run:
           name: Download Arch Linux bootstrap tarball and checksum
@@ -50,11 +51,11 @@ jobs:
             buildah config --cmd /bin/bash $CONTAINER
             buildah unmount $CONTAINER
       - run:
-          name: Create image from container and push it to registry
-          <<: *sudo_shell
-          command: |
-            echo $REGISTRY_PWD | buildah login -u $REGISTRY_USER --password-stdin $REGISTRY
-            buildah commit $CONTAINER $IMAGE_REF
+          name: Login to container registry
+          command: echo $REGISTRY_PWD | buildah login -u $REGISTRY_USER --password-stdin $REGISTRY
       - run:
-          name: Inspect result
-          command: sudo skopeo inspect $IMAGE_REF
+          name: Create image from container and push it to registry
+          command: sudo buildah commit --authfile $REGISTRY_AUTH_FILE $CONTAINER $IMAGE_REF
+      - run:
+          name: Inspect pushed image on registry
+          command: skopeo inspect --authfile $REGISTRY_AUTH_FILE $IMAGE_REF
