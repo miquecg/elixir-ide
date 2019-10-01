@@ -8,10 +8,8 @@
       tarball: archlinux-bootstrap-{{ date_latest_bootstrap }}-x86_64.tar.gz
       checksum: sha1sums.txt
   tasks:
-    - name: Create a container based on Arch Linux
-      block:
-        - name: Download Arch Linux bootstrap tarball
-          get_url:
-            url: "{{ base_url }}/{{ files.tarball }}"
-            dest: ./{{ files.tarball }}
-            checksum: sha1:{{ base_url }}/{{ files.checksum }}
+    - name: Download Arch Linux bootstrap tarball
+      get_url:
+        url: "{{ base_url }}/{{ files.tarball }}"
+        dest: ./{{ files.tarball }}
+        checksum: sha1:{{ base_url }}/{{ files.checksum }}
