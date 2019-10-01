@@ -7,9 +7,23 @@
     files:
       tarball: archlinux-bootstrap-{{ date_latest_bootstrap }}-x86_64.tar.gz
       checksum: sha1sums.txt
+    container_name: arch
   tasks:
     - name: Download Arch Linux bootstrap tarball
       get_url:
         url: "{{ base_url }}/{{ files.tarball }}"
         dest: ./{{ files.tarball }}
         checksum: sha1:{{ base_url }}/{{ files.checksum }}
+    - name: Create an empty container named "{{ container_name }}"
+      command: buildah from --name {{ container_name }} scratch
+    - name: Mount container's root filesystem
+      command: buildah mount {{ container_name }}
+      register: buildah_mount
+    - name: Extract bootstrap tarball to mount point
+      unarchive:
+        src: "{{ files.tarball }}"
+        dest: "{{ buildah_mount.stdout }}"
+        extra_opts:
+          - --strip-components=1
+    - name: Unmount container's root filesystem
+      command: buildah umount {{ container_name }}
