@@ -13,5 +13,5 @@
         - name: Download Arch Linux bootstrap tarball
           get_url:
             url: "{{ base_url }}/{{ files.tarball }}"
-            dest: .
+            dest: ./{{ files.tarball }}
             checksum: sha1:{{ base_url }}/{{ files.checksum }}
