@@ -1,12 +1,17 @@
 ---
 - hosts: localhost
   connection: local
+  vars_files:
+    - vars/registry.yml
   vars:
     date_latest_bootstrap: "{{ lookup('pipe', 'date +%Y.%m.01') }}"
     base_url: https://archive.archlinux.org/iso/{{ date_latest_bootstrap }}
     files:
       tarball: archlinux-bootstrap-{{ date_latest_bootstrap }}-x86_64.tar.gz
       checksum: sha1sums.txt
+    image:
+      name: "{{ registry.name }}/{{ registry.repo }}"
+      tag: "{{ date_latest_bootstrap }}"
   tasks:
     - name: Download Arch Linux bootstrap tarball
       get_url:
@@ -25,3 +30,9 @@
         dest: "{{ buildah_mount.stdout }}"
         extra_opts:
           - --strip-components=1
+    - name: Login to registry
+      command: buildah login -u {{ registry.user }} --password-stdin {{ registry.name }}
+      args:
+        stdin: "{{ registry.password }}"
+    - name: Commit changes in container to an image on the registry
+      command: buildah commit {{ buildah_from.stdout }} docker://{{ image.name }}:{{ image.tag }}
