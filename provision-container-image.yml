@@ -5,19 +5,14 @@
     - vars/registry.yml
   vars:
     release_date: "{{ '%Y.%m.01' | strftime }}"
-    base_url: https://archive.archlinux.org/iso/{{ release_date }}
-    files:
-      tarball: archlinux-bootstrap-{{ release_date }}-x86_64.tar.gz
-      checksum: sha1sums.txt
-    image:
-      name: "{{ registry.name }}/{{ registry.repo }}"
-      tag: "{{ release_date }}"
   tasks:
     - name: Download Arch Linux bootstrap tarball
       get_url:
-        url: "{{ base_url }}/{{ files.tarball }}"
+        url: "{{ base_url }}/{{ release_date }}/archlinux-bootstrap-{{ release_date }}-x86_64.tar.gz"
         dest: ./archlinux-bootstrap.tar.gz
-        checksum: sha1:{{ base_url }}/{{ files.checksum }}
+        checksum: sha1:{{ base_url }}/{{ release_date }}/sha1sums.txt
+      vars:
+        base_url: https://archive.archlinux.org/iso
     - name: Create an empty container
       command: buildah from scratch
       register: buildah_from
@@ -34,4 +29,6 @@
       args:
         stdin: "{{ registry.password }}"
     - name: Commit changes in container to an image on the registry
-      command: buildah commit {{ buildah_from.stdout }} docker://{{ image.name }}:{{ image.tag }}
+      command: >
+        buildah commit {{ buildah_from.stdout }}
+        docker://{{ registry.name }}/{{ registry.repo }}:{{ release_date }}
