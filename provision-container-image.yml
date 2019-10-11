@@ -4,14 +4,14 @@
   vars_files:
     - vars/registry.yml
   vars:
-    date_latest_bootstrap: "{{ lookup('pipe', 'date +%Y.%m.01') }}"
-    base_url: https://archive.archlinux.org/iso/{{ date_latest_bootstrap }}
+    release_date: "{{ '%Y.%m.01' | strftime }}"
+    base_url: https://archive.archlinux.org/iso/{{ release_date }}
     files:
-      tarball: archlinux-bootstrap-{{ date_latest_bootstrap }}-x86_64.tar.gz
+      tarball: archlinux-bootstrap-{{ release_date }}-x86_64.tar.gz
       checksum: sha1sums.txt
     image:
       name: "{{ registry.name }}/{{ registry.repo }}"
-      tag: "{{ date_latest_bootstrap }}"
+      tag: "{{ release_date }}"
   tasks:
     - name: Download Arch Linux bootstrap tarball
       get_url:
