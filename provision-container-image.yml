@@ -1,6 +1,5 @@
 ---
 - hosts: localhost
-  connection: local
   vars_files:
     - vars/registry.yml
   vars:
