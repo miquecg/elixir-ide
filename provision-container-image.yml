@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  vars_files:
+    - vars/registry.yml
+  vars:
+    release_date: "{{ '%Y.%m.01' | strftime }}"
+  tasks:
+    - name: Download Arch Linux bootstrap tarball
+      get_url:
+        url: "{{ base_url }}/{{ release_date }}/archlinux-bootstrap-{{ release_date }}-x86_64.tar.gz"
+        dest: ./archlinux-bootstrap.tar.gz
+        checksum: sha1:{{ base_url }}/{{ release_date }}/sha1sums.txt
+      vars:
+        base_url: https://archive.archlinux.org/iso
+    - name: Create an empty container
+      command: buildah from scratch
+      register: buildah_from
+    - name: Mount container's root filesystem
+      command: buildah mount {{ buildah_from.stdout }}
+      register: buildah_mount
+    - name: Extract bootstrap tarball to mount point
+      unarchive:
+        src: ./archlinux-bootstrap.tar.gz
+        dest: "{{ buildah_mount.stdout }}"
+        extra_opts: [--strip-components=1]
+    - name: Login to registry
+      command: buildah login -u {{ registry.user }} --password-stdin {{ registry.name }}
+      args:
+        stdin: "{{ registry.password }}"
+    - name: Commit changes in container to an image on the registry
+      command: >
+        buildah commit {{ buildah_from.stdout }}
+        docker://{{ registry.name }}/{{ registry.repo }}:{{ release_date }}
