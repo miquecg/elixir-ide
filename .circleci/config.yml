@@ -22,4 +22,4 @@ jobs:
       - checkout
       - run:
           name: Run playbook
-          command: sudo ansible-playbook provision-container-image.yml
+          command: sudo -E ansible-playbook provision-container-image.yml
