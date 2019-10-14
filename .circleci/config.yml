@@ -11,10 +11,10 @@ jobs:
           name: Add projectatomic repository
           <<: *sudo_shell
           command: |
-            apt-get update
-            apt-get -y install software-properties-common
+            apt update
+            apt -y install software-properties-common
             add-apt-repository -y ppa:projectatomic/ppa
-            apt-get update
+            apt update
       - run:
           name: Install buildah and skopeo
-          command: sudo apt-get -y install buildah skopeo
+          command: sudo apt -y install buildah skopeo
