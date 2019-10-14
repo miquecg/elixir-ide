@@ -13,7 +13,7 @@ jobs:
           command: |
             apt update
             apt -y install software-properties-common
-            add-apt-repository -y ppa:projectatomic/ppa
+            apt-add-repository -y ppa:projectatomic/ppa
             apt update
       - run:
           name: Install buildah and skopeo
