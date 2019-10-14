@@ -8,13 +8,14 @@ jobs:
       image: ubuntu-1604:201903-01
     steps:
       - run:
-          name: Add projectatomic repository
+          name: Add repositories for build dependencies
           <<: *sudo_shell
           command: |
             apt update
             apt --yes install software-properties-common
+            apt-add-repository --yes ppa:ansible/ansible
             apt-add-repository --yes ppa:projectatomic/ppa
             apt update
       - run:
-          name: Install buildah and skopeo
-          command: sudo apt --yes install buildah skopeo
+          name: Install build dependencies
+          command: sudo apt --yes install ansible buildah skopeo
