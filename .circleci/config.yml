@@ -1,5 +1,5 @@
 superuser: &sudo_shell
-  shell: sudo -EH /bin/bash -leo pipefail
+  shell: sudo /bin/bash -eo pipefail
 
 version: 2
 jobs:
