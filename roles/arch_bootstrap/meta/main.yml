@@ -1,0 +1,9 @@
+---
+galaxy_info:
+  author: Miguel Casal
+  description: Role to download latest bootstrap tarball available for Arch Linux.
+  license: MIT
+  min_ansible_version: 2.4
+  galaxy_tags: []
+
+dependencies: []
