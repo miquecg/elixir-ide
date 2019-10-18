@@ -3,12 +3,12 @@ superuser: &sudo_shell
 
 version: 2
 jobs:
-  build:
+  build_container:
     machine:
       image: ubuntu-1604:201903-01
     steps:
       - run:
-          name: Add repositories for build dependencies
+          name: Add repositories with build dependencies
           <<: *sudo_shell
           command: |
             apt update
@@ -23,3 +23,12 @@ jobs:
       - run:
           name: Run playbook
           command: sudo -E ansible-playbook provision-container-image.yml
+
+workflows:
+  version: 2
+  ansible:
+    jobs:
+      - build_container:
+          filters:
+            branches:
+              ignore: master
