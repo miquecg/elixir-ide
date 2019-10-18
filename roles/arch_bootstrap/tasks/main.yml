@@ -1,2 +1,13 @@
 ---
-# tasks file for arch_bootstrap
+- name: Release {{ current_release }}
+  include_tasks: download-tarball.yml
+  vars:
+    date: "{{ current_release }}"
+  args:
+    apply:
+      ignore_errors: yes
+- name: Fallback to release {{ previous_release }}
+  include_tasks: download-tarball.yml
+  vars:
+    date: "{{ previous_release }}"
+  when: tarball_result is failed
