@@ -1,2 +1,3 @@
 ---
-# vars file for arch_bootstrap
+current_release: "{{ '%Y.%m.01' | strftime }}"
+previous_release: "{{ ansible_date_time.date | to_datetime('%Y-%m-%d') | to_day_1(month=-1, fmt='%Y.%m.%d') }}"
