@@ -3,11 +3,6 @@ Arch Linux bootstrap
 
 Role to download latest bootstrap tarball available for Arch Linux.
 
-Requirements
-------------
-
-
-
 Role Variables
 --------------
 
@@ -29,16 +24,6 @@ previous_release: "{{ ansible_date_time.date | to_datetime('%Y-%m-%d') | to_day_
 
 ### facts
 This role sets a fact called `release` depending on which monthly tarball was downloaded.
-
-Dependencies
-------------
-
-
-
-Example Playbook
-----------------
-
-
 
 License
 -------
