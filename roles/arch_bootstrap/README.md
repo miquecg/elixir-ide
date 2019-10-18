@@ -43,4 +43,4 @@ Example Playbook
 License
 -------
 
-See [LICENSE](https://github.com/miquecg/elixir-ide/blob/master/LICENSE)
+See [LICENSE](https://github.com/miquecg/elixir-ide/blob/master/LICENSE).
