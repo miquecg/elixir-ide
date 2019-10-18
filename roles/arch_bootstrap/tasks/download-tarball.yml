@@ -1,0 +1,10 @@
+---
+- name: Download Arch Linux bootstrap tarball
+  get_url:
+    url: "{{ base_url }}/{{ date }}/archlinux-bootstrap-{{ date }}-x86_64.tar.gz"
+    dest: ./archlinux-bootstrap.tar.gz
+    checksum: sha1:{{ base_url }}/{{ date }}/sha1sums.txt
+  register: tarball_result
+- set_fact:
+    release: "{{ date }}"
+  when: tarball_result is succeeded
