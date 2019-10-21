@@ -34,9 +34,11 @@ previous_release: "{{ ansible_date_time.date | to_datetime('%Y-%m-%d') | to_day_
 This role sets several facts during execution:
 
 **`release`**
+
 It can be either `current_release` or `previous_release`, depending on which monthly tarball was downloaded.
 
 **`working_container`**
+
 ID of the container that was created. This value is dynamic to avoid collisions with any other container in the environment (e.g. previously created by this role).
 
 License
