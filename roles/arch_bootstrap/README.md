@@ -1,7 +1,7 @@
 Arch Linux bootstrap
 ====================
 
-Role to download latest bootstrap tarball available for Arch Linux.
+Create an Arch Linux container from latest bootstrap tarball available.
 
 Role Variables
 --------------
