@@ -19,6 +19,6 @@
   register: buildah_mount
 - name: Extract bootstrap tarball to mount point
   unarchive:
-    src: ./archlinux-bootstrap.tar.gz
+    src: "{{ path_to_bootstrap }}"
     dest: "{{ buildah_mount.stdout }}"
     extra_opts: [--strip-components=1]
