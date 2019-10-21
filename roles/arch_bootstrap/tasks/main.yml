@@ -14,8 +14,10 @@
 - name: Create an empty container
   command: buildah from scratch
   register: buildah_from
+- set_fact:
+    working_container: "{{ buildah_from.stdout }}"
 - name: Mount container's root filesystem
-  command: buildah mount {{ buildah_from.stdout }}
+  command: buildah mount {{ working_container }}
   register: buildah_mount
 - name: Extract bootstrap tarball to mount point
   unarchive:

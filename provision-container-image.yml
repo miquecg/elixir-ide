@@ -11,5 +11,5 @@
         stdin: "{{ registry.password }}"
     - name: Commit changes in container to an image on the registry
       command: >
-        buildah commit {{ buildah_from.stdout }}
+        buildah commit {{ working_container }}
         docker://{{ registry.name }}/{{ registry.repo }}:{{ release }}
