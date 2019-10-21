@@ -5,22 +5,11 @@
   tasks:
     - include_role:
         name: arch_bootstrap
-    - name: Create an empty container
-      command: buildah from scratch
-      register: buildah_from
-    - name: Mount container's root filesystem
-      command: buildah mount {{ buildah_from.stdout }}
-      register: buildah_mount
-    - name: Extract bootstrap tarball to mount point
-      unarchive:
-        src: ./archlinux-bootstrap.tar.gz
-        dest: "{{ buildah_mount.stdout }}"
-        extra_opts: [--strip-components=1]
     - name: Login to registry
       command: buildah login -u {{ registry.user }} --password-stdin {{ registry.name }}
       args:
         stdin: "{{ registry.password }}"
     - name: Commit changes in container to an image on the registry
       command: >
-        buildah commit {{ buildah_from.stdout }}
+        buildah commit {{ working_container }}
         docker://{{ registry.name }}/{{ registry.repo }}:{{ release }}

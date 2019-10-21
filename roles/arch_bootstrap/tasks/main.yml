@@ -11,3 +11,16 @@
   vars:
     date: "{{ previous_release }}"
   when: tarball_result is failed
+- name: Create an empty container
+  command: buildah from scratch
+  register: buildah_from
+- set_fact:
+    working_container: "{{ buildah_from.stdout }}"
+- name: Mount container's root filesystem
+  command: buildah mount {{ working_container }}
+  register: buildah_mount
+- name: Extract bootstrap tarball to mount point
+  unarchive:
+    src: "{{ path_to_bootstrap }}"
+    dest: "{{ buildah_mount.stdout }}"
+    extra_opts: [--strip-components=1]
