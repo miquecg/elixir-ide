@@ -18,7 +18,7 @@ jobs:
             apt update
       - run:
           name: Install build dependencies
-          command: sudo apt --yes install ansible buildah skopeo
+          command: sudo apt --yes install ansible buildah
       - checkout
       - run:
           name: Run playbook
