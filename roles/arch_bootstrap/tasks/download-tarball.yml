@@ -6,5 +6,4 @@
     checksum: sha1:{{ base_url }}/{{ date }}/sha1sums.txt
   register: tarball_result
 - set_fact:
-    release: "{{ date }}"
-  when: tarball_result is succeeded
+    tarball_result: "{{ tarball_result | combine( {'release': date} ) }}"
