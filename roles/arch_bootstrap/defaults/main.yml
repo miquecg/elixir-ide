@@ -1,3 +1,6 @@
 ---
 base_url: https://archive.archlinux.org/iso
 path_to_bootstrap: "{{ playbook_dir }}/archlinux-bootstrap.tar.gz"
+release:
+  current: "{{ '%Y.%m.01' | strftime }}"
+  previous: "{{ ansible_date_time.date | to_datetime('%Y-%m-%d') | to_day_1(month=-1, fmt='%Y.%m.%d') }}"

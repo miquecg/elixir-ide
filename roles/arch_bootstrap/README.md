@@ -20,22 +20,20 @@ base_url: https://archive.archlinux.org/iso
 path_to_bootstrap: "{{ playbook_dir }}/archlinux-bootstrap.tar.gz"
 ```
 
-### vars
-Both are dates formatted as `YYYY.MM.01`, meaning first day on any given month and year.
-
-Default to current and previous month:
-
 ```yaml
-current_release: "{{ '%Y.%m.01' | strftime }}"
-previous_release: "{{ ansible_date_time.date | to_datetime('%Y-%m-%d') | to_day_1(month=-1, fmt='%Y.%m.%d') }}"
+release:
+  current: "{{ '%Y.%m.01' | strftime }}"
+  previous: "{{ ansible_date_time.date | to_datetime('%Y-%m-%d') | to_day_1(month=-1, fmt='%Y.%m.%d') }}"
 ```
 
+Both values must be dates formatted as `YYYY.MM.01`. Default to current and previous month.
+
 ### facts
-This role sets several facts during execution:
+This role sets two facts during execution.
 
-**`release`**
+**`tarball_result`**
 
-It can be either `current_release` or `previous_release`, depending on which monthly tarball was downloaded.
+Registers the task result of downloading the tarball. It has the corresponding release date under the key `release`.
 
 **`working_container`**
 

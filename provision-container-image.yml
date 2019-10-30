@@ -13,3 +13,5 @@
       command: >
         buildah commit {{ working_container }}
         docker://{{ registry.name }}/{{ registry.repo }}:{{ release }}
+      vars:
+        release: "{{ tarball_result.release }}"
