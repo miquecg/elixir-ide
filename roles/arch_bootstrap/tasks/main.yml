@@ -1,15 +1,15 @@
 ---
-- name: Release {{ current_release }}
+- name: Release {{ release.current }}
   include_tasks: download-tarball.yml
   vars:
-    date: "{{ current_release }}"
+    date: "{{ release.current }}"
   args:
     apply:
       ignore_errors: yes
-- name: Fallback to release {{ previous_release }}
+- name: Fallback to release {{ release.previous }}
   include_tasks: download-tarball.yml
   vars:
-    date: "{{ previous_release }}"
+    date: "{{ release.previous }}"
   when: tarball_result is failed
 - name: Create an empty container
   command: buildah from scratch
