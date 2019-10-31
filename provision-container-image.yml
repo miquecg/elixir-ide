@@ -3,13 +3,3 @@
   tasks:
     - include_role:
         name: arch_bootstrap
-    - name: Login to registry
-      command: buildah login -u {{ registry.user }} --password-stdin {{ registry.name }}
-      args:
-        stdin: "{{ registry.password }}"
-    - name: Commit changes in container to an image on the registry
-      command: >
-        buildah commit {{ working_container }}
-        docker://{{ registry.name }}/{{ registry.repo }}:{{ release }}
-      vars:
-        release: "{{ tarball_result.release }}"
