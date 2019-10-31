@@ -1,7 +1,5 @@
 ---
 - hosts: localhost
-  vars_files:
-    - vars/registry.yml
   tasks:
     - include_role:
         name: arch_bootstrap
