@@ -20,8 +20,8 @@ base_url: https://archive.archlinux.org/iso
 path_to_bootstrap: "{{ playbook_dir }}/archlinux-bootstrap.tar.gz"
 registry:
   name: docker.io
-  user: "{{ registry_user }}"
-  password: "{{ registry_password }}"
+  user: "{{ lookup('env', 'REGISTRY_USER') }}"
+  token: "{{ lookup('env', 'REGISTRY_TOKEN') }}"
 release:
   # Both values are dates formatted as `YYYY.MM.01`
   # corresponding to current and previous month
