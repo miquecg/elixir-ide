@@ -14,7 +14,7 @@
 - name: Create an empty container
   command: buildah from scratch
   register: buildah_from
-- name: Created {{ buildah_from.stdout }}
+- name: "{{ buildah_from.stdout }} created"
   set_fact:
     working_container: "{{ buildah_from.stdout }}"
 - name: Mount {{ working_container }}

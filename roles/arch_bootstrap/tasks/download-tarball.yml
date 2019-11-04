@@ -5,6 +5,6 @@
     dest: "{{ path_to_bootstrap }}"
     checksum: sha1:{{ base_url }}/{{ date }}/sha1sums.txt
   register: tarball_result
-- name: Save task result
+- name: Save download task result
   set_fact:
     tarball_result: "{{ tarball_result | combine( {'release': date} ) }}"
