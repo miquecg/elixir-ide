@@ -17,6 +17,7 @@ Role Variables
 
 ```yaml
 base_url: https://archive.archlinux.org/iso
+image: barbaz
 path_to_bootstrap: "{{ playbook_dir }}/archlinux-bootstrap.tar.gz"
 registry:
   name: docker.io
