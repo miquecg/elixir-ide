@@ -1,0 +1,11 @@
+---
+- name: Login to {{ registry.name }}
+  command: buildah login -u {{ registry.user }} --password-stdin {{ registry.name }}
+  args:
+    stdin: "{{ registry.token }}"
+- name: Push local image to registry
+  command: >
+    buildah push localhost/{{ image }}
+    docker://{{ registry.name }}/{{ repository }}:{{ release }}
+  vars:
+    repository: "{{ registry.user }}/{{ image }}"
