@@ -3,3 +3,13 @@
   tasks:
     - include_role:
         name: arch_bootstrap
+    - include_role:
+        name: arch_bootstrap
+        tasks_from: create-image
+      vars:
+        container: "{{ working_container }}"
+    - include_role:
+        name: arch_bootstrap
+        tasks_from: push-to-registry
+      vars:
+        release: "{{ tarball_result.release }}"
