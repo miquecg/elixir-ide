@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Miguel Casal
-  description: Create an Arch Linux container from latest bootstrap tarball available
+  description: Create an Arch Linux container image from latest bootstrap tarball available
   license: MIT
   min_ansible_version: 2.4
   galaxy_tags: []

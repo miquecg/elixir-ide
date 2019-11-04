@@ -1,7 +1,7 @@
 Arch Linux bootstrap
 ====================
 
-Create an Arch Linux container from latest bootstrap tarball available.
+Create an Arch Linux container image from latest bootstrap tarball available.
 
 Requirements
 ------------
