@@ -1,5 +1,5 @@
 # elixir-ide
-This project is an attempt to create a portable Elixir development environment distributed as a container image and aimed towards usage of terminal tools for editing. It's also an important goal to achieve a high degree of automation during the whole lifecycle of the environment.
+This project is an attempt to create a portable Elixir development environment distributed as a container image and based on terminal tools for coding. It's mostly an excuse to learn on automation and Ansible in particular.
 
 Inspiration came from a blog post in Medium.
 
