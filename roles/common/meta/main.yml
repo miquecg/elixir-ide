@@ -1,0 +1,9 @@
+---
+galaxy_info:
+  author: Miguel Casal
+  description: Common tasks for initial Arch Linux setup
+  license: MIT
+  min_ansible_version: 2.4
+  galaxy_tags: []
+
+dependencies: []
