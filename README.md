@@ -18,3 +18,15 @@ Inspiration came from a blog post in Medium.
 - Use [buildah](https://github.com/containers/buildah) to create the image
 - Store it on a [Docker Hub](https://hub.docker.com/) repository
 - Automate the whole process with [Ansible](https://github.com/ansible/ansible)
+
+## Actions on the host
+
+### Rootless containers
+Users running them will need a range of UIDs listed in `/etc/subuid` and `/etc/subgid` files.
+
+More information:
+- https://www.redhat.com/sysadmin/rootless-podman-makes-sense
+- https://docs.docker.com/engine/security/userns-remap/
+
+### Powerline Symbols on terminal
+Fancy Oh My Zsh themes customize the terminal prompt with these symbols, so a patched font must be installed to see them.
