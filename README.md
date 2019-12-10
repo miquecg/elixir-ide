@@ -1,5 +1,5 @@
 # elixir-ide
-This project is an attempt to create a portable Elixir development environment distributed as a container image and aimed towards usage of terminal tools for editing. It's also an important goal to achieve a high degree of automation during the whole lifecycle of the environment.
+This project is an attempt to create a portable Elixir development environment distributed as a container image and based on terminal tools for coding. It's mostly an excuse to learn on automation and Ansible in particular.
 
 Inspiration came from a blog post in Medium.
 
@@ -7,31 +7,26 @@ Inspiration came from a blog post in Medium.
 >
 > Building a portable IDE to run anywhere (as long as you’ve got Docker)
 
-### Characteristics
+### Container characteristics
+- Arch Linux based
+- Includes all necessary tools for development
+- Meant to be long-lived (stop/start)
+- Codebase shared by host (bind mount)
 
-- System container based on Arch Linux
-- Includes all necessary packages and configurations (git, vim with plugins, tmux...)
-- Meant to be long-lived
-- Working codebase is shared from host via volumes
+### Project guidelines
+- Build a container image in a CI environment
+- Use [buildah](https://github.com/containers/buildah) to create the image
+- Store it on a [Docker Hub](https://hub.docker.com/) repository
+- Automate the whole process with [Ansible](https://github.com/ansible/ansible)
 
-### Guidelines
-- Automate tasks with [Ansible](https://github.com/ansible/ansible) as much as possible
-- Use [buildah](https://github.com/containers/buildah) to create an OCI image
-- Publish the image to a registry ([Quay](https://quay.io/), [Docker Hub](https://hub.docker.com/))
-- Automate local setup and package upgrades
+## Actions on the host
 
-## Questions
-Mostly for myself.
+### Rootless containers
+Users running them will need a range of UIDs listed in `/etc/subuid` and `/etc/subgid` files.
 
-#### Do I need Ansible in the local machine?
-Yes if you also want to automate package upgrades on the container or any other maintenance task, but not required.
+More information:
+- https://www.redhat.com/sysadmin/rootless-podman-makes-sense
+- https://docs.docker.com/engine/security/userns-remap/
 
-#### How does Ansible connect to a container?
-https://docs.ansible.com/ansible/latest/plugins/connection.html
-
-#### What about container runtimes?
-You need one of those on you local machine, for sure. There are several alternatives to choose from that are suitable for system containers: LXC/LXD, OpenVZ or runC. The latter is the reference runtime implementation from the Open Container Initiative and other tools are based on it (e.g. [Docker since version 1.11.0](https://github.com/rkt/rkt/blob/master/Documentation/rkt-vs-other-projects.md#process-model)\).
-
-> OCI develops runC, a container runtime that implements their specification and serves as a basis for other higher-level tools.
->
-> [Wikipedia](https://en.wikipedia.org/wiki/Open_Container_Initiative)
+### Powerline Symbols on terminal
+Fancy Oh My Zsh themes customize the terminal prompt with these symbols, so a patched font must be installed to see them.
