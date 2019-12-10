@@ -13,11 +13,11 @@ Inspiration came from a blog post in Medium.
 - Meant to be long-lived (stop/start)
 - Codebase shared by host (bind mount)
 
-### Guidelines
-- Automate tasks with [Ansible](https://github.com/ansible/ansible) as much as possible
-- Use [buildah](https://github.com/containers/buildah) to create an OCI image
-- Publish the image to a registry ([Quay](https://quay.io/), [Docker Hub](https://hub.docker.com/))
-- Automate local setup and package upgrades
+### Project guidelines
+- Build a container image in a CI environment
+- Use [buildah](https://github.com/containers/buildah) to create the image
+- Store it on a [Docker Hub](https://hub.docker.com/) repository
+- Automate the whole process with [Ansible](https://github.com/ansible/ansible)
 
 ## Questions
 Mostly for myself.
