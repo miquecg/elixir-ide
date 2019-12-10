@@ -7,12 +7,11 @@ Inspiration came from a blog post in Medium.
 >
 > Building a portable IDE to run anywhere (as long as you’ve got Docker)
 
-### Characteristics
-
-- System container based on Arch Linux
-- Includes all necessary packages and configurations (git, vim with plugins, tmux...)
-- Meant to be long-lived
-- Working codebase is shared from host via volumes
+### Container characteristics
+- Arch Linux based
+- Includes all necessary tools for development
+- Meant to be long-lived (stop/start)
+- Codebase shared by host (bind mount)
 
 ### Guidelines
 - Automate tasks with [Ansible](https://github.com/ansible/ansible) as much as possible
