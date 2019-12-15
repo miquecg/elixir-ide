@@ -25,3 +25,8 @@
     src: "{{ path_to_bootstrap }}"
     dest: "{{ buildah_mount.stdout }}"
     extra_opts: [--strip-components=1]
+- name: Ensure pacman has a mirror configured
+  lineinfile:
+    path: "{{ buildah_mount.stdout }}/etc/pacman.d/mirrorlist"
+    regexp: "{{ pacman_mirror }}"
+    line: "Server = {{ pacman_mirror }}/$repo/os/$arch"

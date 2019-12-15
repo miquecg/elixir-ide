@@ -1,6 +1,7 @@
 ---
 base_url: https://archive.archlinux.org/iso
 image: barbaz
+pacman_mirror: https://mirror.rackspace.com/archlinux
 path_to_bootstrap: "{{ playbook_dir }}/archlinux-bootstrap.tar.gz"
 registry:
   name: docker.io
