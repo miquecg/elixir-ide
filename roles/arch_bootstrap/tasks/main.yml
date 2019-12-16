@@ -30,3 +30,10 @@
     path: "{{ buildah_mount.stdout }}/etc/pacman.d/mirrorlist"
     regexp: "{{ pacman_mirror }}"
     line: "Server = {{ pacman_mirror }}/$repo/os/$arch"
+- name: Copy pacman.conf
+  copy:
+    src: pacman.conf
+    dest: "{{ buildah_mount.stdout }}/etc/pacman.conf"
+    owner: root
+    group: root
+    mode: '0644'
