@@ -37,3 +37,13 @@
     dest: "{{ buildah_mount.stdout }}/etc/pacman.conf"
     mode: '0644'
     backup: yes
+- name: Ensure directory for pacman hooks exists
+  file:
+    path: "{{ buildah_mount.stdout }}/etc/pacman.d/hooks"
+    state: directory
+    mode: '0755'
+- name: Copy hook for cache cleaning
+  copy:
+    src: package-cleanup.hook
+    dest: "{{ buildah_mount.stdout }}/etc/pacman.d/hooks/package-cleanup.hook"
+    mode: '0644'
