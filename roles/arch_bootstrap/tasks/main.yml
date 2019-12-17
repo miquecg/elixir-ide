@@ -29,15 +29,11 @@
   template:
     src: mirrorlist.j2
     dest: "{{ buildah_mount.stdout }}/etc/pacman.d/mirrorlist"
-    owner: root
-    group: root
     mode: '0644'
     backup: yes
 - name: Copy pacman.conf
   copy:
     src: pacman.conf
     dest: "{{ buildah_mount.stdout }}/etc/pacman.conf"
-    owner: root
-    group: root
     mode: '0644'
     backup: yes
