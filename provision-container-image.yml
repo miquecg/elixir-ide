@@ -4,7 +4,7 @@
     - include_role:
         name: arch_bootstrap
       vars:
-        pacman_mirror: https://osl.ugr.es/archlinux
+        main_mirror: https://osl.ugr.es/archlinux
     - include_role:
         name: arch_bootstrap
         tasks_from: create-image
