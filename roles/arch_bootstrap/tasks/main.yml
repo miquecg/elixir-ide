@@ -31,19 +31,10 @@
     dest: "{{ buildah_mount.stdout }}/etc/pacman.d/mirrorlist"
     mode: '0644'
     backup: yes
-- name: Copy pacman.conf
+- name: Copy pacman configurations
   copy:
-    src: pacman.conf
-    dest: "{{ buildah_mount.stdout }}/etc/pacman.conf"
+    src: files/etc/
+    dest: "{{ buildah_mount.stdout }}/etc/"
+    directory_mode: '0755'
     mode: '0644'
     backup: yes
-- name: Ensure directory for pacman hooks exists
-  file:
-    path: "{{ buildah_mount.stdout }}/etc/pacman.d/hooks"
-    state: directory
-    mode: '0755'
-- name: Copy hook for cache cleaning
-  copy:
-    src: package-cleanup.hook
-    dest: "{{ buildah_mount.stdout }}/etc/pacman.d/hooks/package-cleanup.hook"
-    mode: '0644'
