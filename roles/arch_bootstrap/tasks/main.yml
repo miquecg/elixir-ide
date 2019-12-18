@@ -25,3 +25,16 @@
     src: "{{ path_to_bootstrap }}"
     dest: "{{ buildah_mount.stdout }}"
     extra_opts: [--strip-components=1]
+- name: Copy list of pacman mirrors
+  template:
+    src: mirrorlist.j2
+    dest: "{{ buildah_mount.stdout }}/etc/pacman.d/mirrorlist"
+    mode: '0644'
+    backup: yes
+- name: Copy pacman configurations
+  copy:
+    src: files/etc/
+    dest: "{{ buildah_mount.stdout }}/etc/"
+    directory_mode: '0755'
+    mode: '0644'
+    backup: yes

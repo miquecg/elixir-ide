@@ -1,0 +1,5 @@
+{% if main_mirror is defined %}
+Server = {{ main_mirror }}/$repo/os/$arch
+{% endif %}
+Server = https://mirror.rackspace.com/archlinux/$repo/os/$arch
+Server = http://mirrors.evowise.com/archlinux/$repo/os/$arch
