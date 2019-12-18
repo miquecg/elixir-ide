@@ -21,7 +21,7 @@
   register: buildah_mount
 - name: Create root filesystem
   unarchive:
-    src: "{{ path_to_bootstrap }}"
+    src: "{{ download_path }}/archlinux-bootstrap.tar.gz"
     dest: "{{ buildah_mount.stdout }}"
     extra_opts: [--strip-components=1]
 - name: Copy list of pacman mirrors

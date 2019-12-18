@@ -1,7 +1,7 @@
 ---
 archive_url: https://archive.archlinux.org/iso
+download_path: "{{ playbook_dir }}"
 image: barbaz
-path_to_bootstrap: "{{ playbook_dir }}/archlinux-bootstrap.tar.gz"
 registry:
   name: docker.io
   user: "{{ lookup('env', 'REGISTRY_USER') }}"

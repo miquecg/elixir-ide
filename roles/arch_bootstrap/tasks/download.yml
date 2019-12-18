@@ -2,7 +2,7 @@
 - name: Download Arch Linux bootstrap tarball {{ date }}
   get_url:
     url: "{{ archive_url }}/{{ date }}/archlinux-bootstrap-{{ date }}-x86_64.tar.gz"
-    dest: "{{ path_to_bootstrap }}"
+    dest: "{{ download_path }}/archlinux-bootstrap.tar.gz"
     checksum: sha1:{{ archive_url }}/{{ date }}/sha1sums.txt
   register: tarball_result
 - name: Save download task result
