@@ -18,6 +18,8 @@
     - include_role:
         name: arch_bootstrap
         tasks_from: pacman-keyring
+    - name: Ensure Python is installed
+      raw: pacman -Syu --noconfirm --needed python
 
 - hosts: localhost
   tasks:
