@@ -23,11 +23,6 @@ registry:
   name: docker.io
   user: "{{ lookup('env', 'REGISTRY_USER') }}"
   token: "{{ lookup('env', 'REGISTRY_TOKEN') }}"
-release:
-  # Both values are dates formatted as `YYYY.MM.01`
-  # corresponding to current and previous month
-  current: "{{ '%Y.%m.01' | strftime }}"
-  previous: "{{ ansible_date_time.date | to_datetime('%Y-%m-%d') | to_day_1(month=-1, fmt='%Y.%m.%d') }}"
 ```
 
 ### facts

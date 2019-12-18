@@ -1,15 +1,14 @@
 ---
-- name: Release {{ release.current }}
-  include_tasks: download-tarball.yml
+- include_tasks: download.yml
   vars:
-    date: "{{ release.current }}"
+    date: "{{ '%Y.%m.01' | strftime }}"
   args:
     apply:
       ignore_errors: yes
-- name: Fallback to release {{ release.previous }}
-  include_tasks: download-tarball.yml
+- name: Fallback to previous month release
+  include_tasks: download.yml
   vars:
-    date: "{{ release.previous }}"
+    date: "{{ ansible_date_time.date | to_datetime('%Y-%m-%d') | to_day_1(month=-1, fmt='%Y.%m.%d') }}"
   when: tarball_result is failed
 - name: Create an empty container
   command: buildah from scratch
