@@ -9,7 +9,7 @@
   include_tasks: download.yml
   vars:
     date: "{{ ansible_date_time.date | to_datetime('%Y-%m-%d') | to_day_1(month=-1, fmt='%Y.%m.%d') }}"
-  when: tarball_result is failed
+  when: download_result is failed
 - name: Create an empty container
   command: buildah from scratch
   register: buildah_from

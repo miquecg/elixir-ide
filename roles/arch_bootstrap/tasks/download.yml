@@ -4,7 +4,8 @@
     url: "{{ archive_url }}/{{ date }}/archlinux-bootstrap-{{ date }}-x86_64.tar.gz"
     dest: "{{ download_path }}/archlinux-bootstrap.tar.gz"
     checksum: sha1:{{ archive_url }}/{{ date }}/sha1sums.txt
-  register: tarball_result
-- name: Save download task result
+  register: download_result
+- name: Set bootstrap_release fact to {{ date }}
   set_fact:
-    tarball_result: "{{ tarball_result | combine( {'release': date} ) }}"
+    bootstrap_release: "{{ date }}"
+  when: download_result is succeeded

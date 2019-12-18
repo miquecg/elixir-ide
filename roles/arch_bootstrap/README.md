@@ -28,13 +28,13 @@ registry:
 ### facts
 This role sets two facts during execution.
 
-**`tarball_result`**
+**`bootstrap_release`**
 
-Registers the task result of downloading the tarball. It has the corresponding release date under the key `release`.
+Date formatted as '%Y.%m.01'.
 
 **`working_container`**
 
-ID of the container that was created. This value is dynamic to avoid collisions with any other container in the environment (e.g. previously created by this role).
+ID assigned to the container. It is a dynamic value to avoid collisions with any other existing container in the environment (e.g. previously created by this role).
 
 License
 -------
