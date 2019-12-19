@@ -32,4 +32,4 @@
         name: arch_bootstrap
         tasks_from: push-to-registry
       vars:
-        release: "{{ tarball_result.release }}"
+        release: "{{ bootstrap_release }}"
