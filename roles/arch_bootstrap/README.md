@@ -18,11 +18,6 @@ Role Variables
 ```yaml
 archive_url: https://archive.archlinux.org/iso
 download_path: "{{ playbook_dir }}"
-image: barbaz
-registry:
-  name: docker.io
-  user: "{{ lookup('env', 'REGISTRY_USER') }}"
-  token: "{{ lookup('env', 'REGISTRY_TOKEN') }}"
 ```
 
 ### facts
