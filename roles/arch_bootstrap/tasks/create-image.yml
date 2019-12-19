@@ -1,3 +1,0 @@
----
-- name: Create image from {{ container }}
-  command: buildah commit --rm {{ container }} {{ image }}

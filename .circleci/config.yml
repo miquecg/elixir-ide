@@ -22,7 +22,7 @@ jobs:
       - checkout
       - run:
           name: Run playbook
-          command: sudo -E ansible-playbook provision-container-image.yml
+          command: sudo -E ansible-playbook main.yml
 
 workflows:
   version: 2

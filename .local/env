@@ -1,3 +1,5 @@
 # Source this file to load variables in the environment
+export IMAGE_NAME=
+export REGISTRY_HOST=
 export REGISTRY_USER=
 export REGISTRY_TOKEN=
