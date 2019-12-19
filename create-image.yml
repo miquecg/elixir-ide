@@ -11,11 +11,13 @@
         }
     - name: Create {{ image }} image
       command: buildah commit --rm {{ container }} {{ image }}
-    - name: Login to {{ registry.host }}
-      command: buildah login -u {{ registry.user }} --password-stdin {{ registry.host }}
-      args:
-        stdin: "{{ registry.token }}"
-    - name: Push {{ image }} to registry
-      command: >
-        buildah push localhost/{{ image }}
-        docker://{{ registry.host }}/{{ registry.user }}/{{ image }}
+    - block:
+        - name: Login to {{ registry.host }}
+          command: buildah login -u {{ registry.user }} --password-stdin {{ registry.host }}
+          args:
+            stdin: "{{ registry.token }}"
+        - name: Push {{ image }} to registry
+          command: >
+            buildah push localhost/{{ image }}
+            docker://{{ registry.host }}/{{ registry.user }}/{{ image }}
+      tags: push
