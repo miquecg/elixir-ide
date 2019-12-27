@@ -1,5 +1,0 @@
----
-- name: Init pacman keyring
-  raw: pacman-key --init
-- name: Populate with keys of all official packagers
-  raw: pacman-key --populate archlinux
