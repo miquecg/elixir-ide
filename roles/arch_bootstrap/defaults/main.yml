@@ -1,3 +1,0 @@
----
-archive_url: https://archive.archlinux.org/iso
-download_path: "{{ playbook_dir }}"
