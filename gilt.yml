@@ -1,0 +1,6 @@
+---
+- git: https://github.com/miquecg/ansible-roles.git
+  version: master
+  files:
+    - src: containers/archlinux
+      dst: roles/arch_container
