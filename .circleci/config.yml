@@ -18,8 +18,13 @@ jobs:
             apt update
       - run:
           name: Install build dependencies
-          command: sudo apt --yes install ansible buildah
+          command: |
+            sudo apt --yes install ansible buildah
+            pip install python-gilt
       - checkout
+      - run:
+          name: Install arch_container role
+          command: gilt overlay
       - run:
           name: Run playbook
           command: sudo -E ansible-playbook main.yml
