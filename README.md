@@ -10,7 +10,6 @@ Inspiration came from a blog post in Medium.
 ### Container characteristics
 - Arch Linux based
 - Includes all necessary tools for development
-- Meant to be long-lived (stop/start)
 - Codebase shared by host (bind mount)
 
 ### Project guidelines
