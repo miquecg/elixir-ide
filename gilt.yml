@@ -3,4 +3,4 @@
   version: master
   files:
     - src: containers/archlinux
-      dst: roles/arch_container
+      dst: roles
