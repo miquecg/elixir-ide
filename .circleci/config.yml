@@ -23,7 +23,7 @@ jobs:
             pip install python-gilt
       - checkout
       - run:
-          name: Install arch_container role
+          name: Pull arch_container role
           command: gilt overlay
       - run:
           name: Run playbook
