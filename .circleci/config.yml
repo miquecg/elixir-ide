@@ -13,7 +13,7 @@ jobs:
       - run:
           command: gilt overlay
       - run:
-          command: find -path ./.git -prune -o -type d,f
+          command: find -path ./.git -prune -o -type f
 
 workflows:
   version: 2
