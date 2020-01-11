@@ -20,3 +20,14 @@
         tasks_from: pacman-keyring
     - name: Ensure Python is installed
       raw: pacman -Syu --noconfirm --needed python
+    - name: Ensure basic GNU utilities are present
+      pacman:
+        name:
+          - coreutils
+          - grep
+          - sed
+          - less
+          - gzip
+          - tar
+          - findutils
+        state: present
