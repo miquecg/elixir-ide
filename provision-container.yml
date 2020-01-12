@@ -31,3 +31,6 @@
           - tar
           - findutils
         state: present
+    - include_role:
+        name: common
+        tasks_from: locale

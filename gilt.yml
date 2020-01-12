@@ -4,3 +4,5 @@
   files:
     - src: containers/archlinux
       dst: roles/arch_container
+    - src: common
+      dst: roles/common
