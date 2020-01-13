@@ -33,4 +33,9 @@
         state: present
     - include_role:
         name: common
-        tasks_from: locale
+        tasks_from: "{{ item }}"
+      loop:
+        - locale
+        - timezone
+      vars:
+        timezone: Europe/Madrid
