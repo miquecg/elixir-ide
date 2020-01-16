@@ -1,0 +1,6 @@
+---
+- hosts: container
+  tasks:
+    - include_role:
+        name: arch_container
+        tasks_from: cleanup
