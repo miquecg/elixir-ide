@@ -1,5 +1,7 @@
 ---
 - hosts: localhost
+  vars_files:
+    - vars/buildah-args.yml
   tasks:
     - include_role:
         name: arch_container
@@ -36,6 +38,7 @@
         tasks_from: "{{ item }}"
       loop:
         - locale
+        - nameservers
         - timezone
       vars:
         timezone: Europe/Madrid

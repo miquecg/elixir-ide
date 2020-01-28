@@ -1,0 +1,4 @@
+---
+buildah_extra_args:
+  from:
+    dns: none
