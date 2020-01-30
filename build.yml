@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  tasks:
+    - include_role:
+        name: arch_container
+      vars:
+        main_mirror: https://osl.ugr.es/archlinux

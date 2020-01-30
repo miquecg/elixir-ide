@@ -1,17 +1,11 @@
 ---
 - hosts: localhost
   tasks:
-    - include_role:
-        name: arch_container
-      vars:
-        main_mirror: https://osl.ugr.es/archlinux
-    - name: Add newly created container to inventory
+    - name: Add container to inventory
       add_host:
         name: container
         ansible_host: "{{ working_container }}"
         ansible_connection: buildah
-        ansible_python_interpreter: /usr/bin/python3
-
 - hosts: container
   gather_facts: false
   tasks:

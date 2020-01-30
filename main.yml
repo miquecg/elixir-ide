@@ -1,7 +1,8 @@
 ---
-- import_playbook: provision-container.yml
+- import_playbook: build.yml
+- import_playbook: provision.yml
 - import_playbook: cleanup.yml
-- import_playbook: create-image.yml
+- import_playbook: commit.yml
   vars:
     container: "{{ working_container }}"
     tag: "{{ bootstrap_release }}"
