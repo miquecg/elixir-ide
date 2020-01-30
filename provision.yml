@@ -1,4 +1,11 @@
 ---
+- hosts: localhost
+  tasks:
+    - name: Add container to inventory
+      add_host:
+        name: container
+        ansible_host: "{{ working_container }}"
+        ansible_connection: buildah
 - hosts: container
   gather_facts: false
   tasks:
