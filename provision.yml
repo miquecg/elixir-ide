@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   tasks:
-    - name: Add container to inventory
+    - name: ID of container is {{ working_container }}
       add_host:
         name: container
         ansible_host: "{{ working_container }}"
