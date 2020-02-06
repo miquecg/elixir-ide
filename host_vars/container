@@ -4,10 +4,10 @@ common_tasks:
   - timezone
 gnu_utils:
   - coreutils
-  - grep
-  - sed
-  - less
-  - gzip
-  - tar
   - findutils
+  - grep
+  - gzip
+  - less
+  - sed
+  - tar
 timezone: Europe/Madrid
