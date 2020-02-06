@@ -1,11 +1,10 @@
 ---
 - hosts: localhost
   tasks:
-    - name: Add container to inventory
+    - name: ID of container is {{ working_container }}
       add_host:
         name: container
         ansible_host: "{{ working_container }}"
-        ansible_connection: buildah
 - hosts: container
   gather_facts: false
   tasks:
@@ -16,20 +15,9 @@
       raw: pacman -Syu --noconfirm --needed python
     - name: Ensure basic GNU utilities are present
       pacman:
-        name:
-          - coreutils
-          - grep
-          - sed
-          - less
-          - gzip
-          - tar
-          - findutils
+        name: "{{ gnu_utils }}"
         state: present
     - include_role:
         name: common
         tasks_from: "{{ item }}"
-      loop:
-        - locale
-        - timezone
-      vars:
-        timezone: Europe/Madrid
+      loop: "{{ common_tasks }}"

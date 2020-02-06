@@ -1,0 +1,13 @@
+---
+common_tasks:
+  - locale
+  - timezone
+gnu_utils:
+  - coreutils
+  - findutils
+  - grep
+  - gzip
+  - less
+  - sed
+  - tar
+timezone: Europe/Madrid
