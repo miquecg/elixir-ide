@@ -13,6 +13,8 @@
         tasks_from: pacman-keyring
     - name: Ensure Python is installed
       raw: pacman -Syu --noconfirm --needed python
+      register: python_install
+      changed_when: python_install.stdout is not search('there is nothing to do')
     - name: Ensure basic GNU utilities are present
       pacman:
         name: "{{ gnu_utils }}"
