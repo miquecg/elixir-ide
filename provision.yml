@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   tasks:
-    - name: ID of container is {{ working_container }}
+    - name: Provisioning {{ working_container }}
       add_host:
         name: container
         ansible_host: "{{ working_container }}"
