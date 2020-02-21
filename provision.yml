@@ -8,9 +8,6 @@
 - hosts: container
   gather_facts: false
   tasks:
-    - include_role:
-        name: arch_container
-        tasks_from: pacman-keyring
     - name: Ensure Python is installed
       raw: pacman -Syu --noconfirm --needed python
       register: python_install
