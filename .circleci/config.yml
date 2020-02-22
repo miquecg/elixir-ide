@@ -1,3 +1,8 @@
+aliases:
+  - &setup
+      - install-deps
+      - checkout
+
 version: 2.1
 
 commands:
@@ -25,8 +30,6 @@ jobs:
   build:
     executor: ubuntu
     steps:
-      - install-deps
-      - checkout
       - run:
           name: Pull roles from repository
           command: |
@@ -38,8 +41,6 @@ jobs:
   push:
     executor: ubuntu
     steps:
-      - install-deps
-      - checkout
       - run:
           name: Create a barebones container
           command: buildah from --name foo scratch
@@ -54,7 +55,11 @@ workflows:
           filters:
             branches:
               ignore: master
+          pre-steps:
+            <<: *setup
       - push:
           filters:
             branches:
               ignore: master
+          pre-steps:
+            <<: *setup
