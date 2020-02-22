@@ -1,16 +1,16 @@
-superuser: &sudo_shell
-  shell: sudo /bin/bash -eo pipefail
+aliases:
+  - &setup
+      - install-deps
+      - checkout
 
 version: 2.1
 
-jobs:
-  build:
-    machine:
-      image: ubuntu-1604:201903-01
+commands:
+  install-deps:
     steps:
       - run:
-          name: Add repositories with build dependencies
-          <<: *sudo_shell
+          name: Add repositories with Ansible and buildah packages
+          shell: sudo /bin/bash -eo pipefail
           command: |
             apt update
             apt --yes install software-properties-common
@@ -18,34 +18,29 @@ jobs:
             apt-add-repository --yes ppa:projectatomic/ppa
             apt update
       - run:
-          name: Install build dependencies
-          command: |
-            sudo apt --yes install ansible buildah
-            pip install python-gilt
-      - checkout
+          name: Install dependencies
+          command: sudo apt --yes install ansible buildah
+
+executors:
+  ubuntu:
+    machine:
+      image: ubuntu-1604:201903-01
+
+jobs:
+  build:
+    executor: ubuntu
+    steps:
       - run:
           name: Pull roles from repository
-          command: gilt overlay
+          command: |
+            pip install python-gilt
+            gilt overlay
       - run:
           name: Build a container
           command: sudo -E ansible-playbook build.yml provision.yml cleanup.yml
   push:
-    machine:
-      image: ubuntu-1604:201903-01
+    executor: ubuntu
     steps:
-      - run:
-          name: Add repositories with build dependencies
-          <<: *sudo_shell
-          command: |
-            apt update
-            apt --yes install software-properties-common
-            apt-add-repository --yes ppa:ansible/ansible
-            apt-add-repository --yes ppa:projectatomic/ppa
-            apt update
-      - run:
-          name: Install build dependencies
-          command: sudo apt --yes install ansible buildah
-      - checkout
       - run:
           name: Create a barebones container
           command: buildah from --name foo scratch
@@ -60,7 +55,9 @@ workflows:
           filters:
             branches:
               ignore: master
+          pre-steps: *setup
       - push:
           filters:
             branches:
               ignore: master
+          pre-steps: *setup
