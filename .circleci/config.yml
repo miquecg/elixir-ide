@@ -1,7 +1,20 @@
-superuser: &sudo_shell
-  shell: sudo /bin/bash -eo pipefail
-
 version: 2.1
+
+commands:
+  install-deps:
+    steps:
+      - run:
+          name: Add repositories with Ansible and buildah packages
+          shell: sudo /bin/bash -eo pipefail
+          command: |
+            apt update
+            apt --yes install software-properties-common
+            apt-add-repository --yes ppa:ansible/ansible
+            apt-add-repository --yes ppa:projectatomic/ppa
+            apt update
+      - run:
+          name: Install dependencies
+          command: sudo apt --yes install ansible buildah
 
 executors:
   ubuntu:
@@ -12,42 +25,20 @@ jobs:
   build:
     executor: ubuntu
     steps:
-      - run:
-          name: Add repositories with build dependencies
-          <<: *sudo_shell
-          command: |
-            apt update
-            apt --yes install software-properties-common
-            apt-add-repository --yes ppa:ansible/ansible
-            apt-add-repository --yes ppa:projectatomic/ppa
-            apt update
-      - run:
-          name: Install build dependencies
-          command: |
-            sudo apt --yes install ansible buildah
-            pip install python-gilt
+      - install-deps
       - checkout
       - run:
           name: Pull roles from repository
-          command: gilt overlay
+          command: |
+            pip install python-gilt
+            gilt overlay
       - run:
           name: Build a container
           command: sudo -E ansible-playbook build.yml provision.yml cleanup.yml
   push:
     executor: ubuntu
     steps:
-      - run:
-          name: Add repositories with build dependencies
-          <<: *sudo_shell
-          command: |
-            apt update
-            apt --yes install software-properties-common
-            apt-add-repository --yes ppa:ansible/ansible
-            apt-add-repository --yes ppa:projectatomic/ppa
-            apt update
-      - run:
-          name: Install build dependencies
-          command: sudo apt --yes install ansible buildah
+      - install-deps
       - checkout
       - run:
           name: Create a barebones container
