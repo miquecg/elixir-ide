@@ -55,11 +55,9 @@ workflows:
           filters:
             branches:
               ignore: master
-          pre-steps:
-            <<: *setup
+          pre-steps: *setup
       - push:
           filters:
             branches:
               ignore: master
-          pre-steps:
-            <<: *setup
+          pre-steps: *setup
