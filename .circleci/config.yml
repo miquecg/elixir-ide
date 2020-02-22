@@ -3,10 +3,14 @@ superuser: &sudo_shell
 
 version: 2.1
 
-jobs:
-  build:
+executors:
+  ubuntu:
     machine:
       image: ubuntu-1604:201903-01
+
+jobs:
+  build:
+    executor: ubuntu
     steps:
       - run:
           name: Add repositories with build dependencies
@@ -30,8 +34,7 @@ jobs:
           name: Build a container
           command: sudo -E ansible-playbook build.yml provision.yml cleanup.yml
   push:
-    machine:
-      image: ubuntu-1604:201903-01
+    executor: ubuntu
     steps:
       - run:
           name: Add repositories with build dependencies
