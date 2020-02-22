@@ -4,7 +4,7 @@ superuser: &sudo_shell
 version: 2.1
 
 jobs:
-  build_container:
+  build:
     machine:
       image: ubuntu-1604:201903-01
     steps:
@@ -54,9 +54,13 @@ jobs:
           command: ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
 
 workflows:
-  ansible:
+  pull_request:
     jobs:
-      - build_container:
+      - build:
+          filters:
+            branches:
+              ignore: master
+      - push:
           filters:
             branches:
               ignore: master
