@@ -27,8 +27,8 @@ jobs:
           name: Pull roles from repository
           command: gilt overlay
       - run:
-          name: Run playbook
-          command: sudo -E ansible-playbook main.yml
+          name: Build a container
+          command: sudo -E ansible-playbook build.yml provision.yml cleanup.yml
   push:
     machine:
       image: ubuntu-1604:201903-01
