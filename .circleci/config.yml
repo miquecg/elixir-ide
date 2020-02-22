@@ -1,7 +1,8 @@
 superuser: &sudo_shell
   shell: sudo /bin/bash -eo pipefail
 
-version: 2
+version: 2.1
+
 jobs:
   build_container:
     machine:
@@ -30,7 +31,6 @@ jobs:
           command: sudo -E ansible-playbook main.yml
 
 workflows:
-  version: 2
   ansible:
     jobs:
       - build_container:
