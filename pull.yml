@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Populate variables from environment
+      set_fact:
+        image: "{{ lookup('env', 'IMAGE_NAME') }}:{{ tag }}"
+        registry: {
+          host: "{{ lookup('env', 'REGISTRY_HOST') }}",
+          user: "{{ lookup('env', 'REGISTRY_USER') }}",
+          token: "{{ lookup('env', 'REGISTRY_TOKEN') }}"
+        }
+    - name: Login to {{ registry.host }}
+      command: buildah login -u {{ registry.user }} --password-stdin {{ registry.host }}
+      args:
+        stdin: "{{ registry.token }}"
+    - name: Create container from {{ image }}
+      command: buildah from docker://{{ registry.host }}/{{ registry.user }}/{{ image }}
