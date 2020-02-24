@@ -58,7 +58,7 @@ jobs:
           command: |
             ansible-playbook build.yml
             buildah commit working-container foo
-            buildah push localhost/foo oci-archive:CIRCLE_WORKING_DIRECTORY/foo-image:latest
+            buildah push localhost/foo oci-archive:$CIRCLE_WORKING_DIRECTORY/foo-image:latest
       - run: ls -la
 
 workflows:
