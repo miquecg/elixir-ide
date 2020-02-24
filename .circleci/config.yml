@@ -48,6 +48,11 @@ jobs:
     executor: ubuntu
     steps:
       - run:
+          name: Pull roles from repository
+          command: |
+            pip install python-gilt
+            gilt overlay
+      - run:
           name: Build a container and save image to file
           shell: sudo /bin/bash -eo pipefail
           command: |
