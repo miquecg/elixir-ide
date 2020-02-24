@@ -59,7 +59,9 @@ jobs:
             ansible-playbook build.yml
             buildah commit working-container foo
             buildah push localhost/foo oci-archive:$CIRCLE_WORKING_DIRECTORY/foo-image:latest
-      - run: ls -la
+            pwd
+            ls -la
+      - run: ls -la $CIRCLE_WORKING_DIRECTORY
 
 workflows:
   pull_request:
