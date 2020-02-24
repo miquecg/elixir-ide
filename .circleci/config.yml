@@ -56,12 +56,13 @@ jobs:
           name: Build a container and save image to file
           shell: sudo /bin/bash -eo pipefail
           command: |
-            ansible-playbook build.yml
-            buildah commit working-container foo
-            buildah push localhost/foo oci-archive:$CIRCLE_WORKING_DIRECTORY/foo-image:latest
+            #ansible-playbook build.yml
+            buildah from scratch
+            buildah commit working-container oci-archive:foo:latest
             pwd
             ls -la
-      - run: ls -la $CIRCLE_WORKING_DIRECTORY
+      - run:
+          command: ls -la
 
 workflows:
   pull_request:
