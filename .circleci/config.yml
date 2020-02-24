@@ -43,6 +43,10 @@ jobs:
             buildah commit working-container oci-archive:foo:latest
       - run:
           command: ls -la
+      - save_cache:
+          key: {{ .Branch }}
+          paths:
+            - foo
 
 workflows:
   pull_request:
