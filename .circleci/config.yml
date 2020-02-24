@@ -39,11 +39,8 @@ jobs:
           name: Build a container and save image to file
           shell: sudo /bin/bash -eo pipefail
           command: |
-            #ansible-playbook build.yml
-            buildah from scratch
+            ansible-playbook build.yml
             buildah commit working-container oci-archive:foo:latest
-            pwd
-            ls -la
       - run:
           command: ls -la
 
