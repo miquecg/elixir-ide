@@ -30,23 +30,14 @@ jobs:
   test_job_3:
     executor: ubuntu
     steps:
-      - run:
-          name: Pull roles from repository
-          command: |
-            pip install python-gilt
-            gilt overlay
-      - run:
-          name: Build a container and save image to file
-          shell: sudo /bin/bash -eo pipefail
-          command: |
-            ansible-playbook build.yml
-            buildah commit working-container oci-archive:foo:latest
+      - restore_cache:
+          keys:
+            - test-cache
       - run:
           command: ls -la
-      - save_cache:
-          key: test-cache
-          paths:
-            - foo
+      - run:
+          name: Build a container from the restored image file
+          command: sudo buildah from oci-archive:foo
 
 workflows:
   pull_request:
