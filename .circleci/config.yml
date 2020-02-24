@@ -44,7 +44,7 @@ jobs:
       - run:
           command: ls -la
       - save_cache:
-          key: {{ .Branch }}
+          key: test-cache
           paths:
             - foo
 
