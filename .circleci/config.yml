@@ -64,6 +64,17 @@ jobs:
       - run:
           name: Create container from image on a registry
           command: ansible-playbook pull.yml --extra-vars "tag=2020.02.01"
+  test_job_3:
+    executor: ubuntu
+    steps:
+      - run:
+          name: Build a container and save image to file
+          shell: sudo /bin/bash -eo pipefail
+          command: |
+            ansible-playbook build.yml
+            buildah commit working-container foo
+            buildah push localhost/foo oci-archive:CIRCLE_WORKING_DIRECTORY/foo-image:latest
+      - run: ls -la
 
 workflows:
   pull_request:
@@ -81,4 +92,6 @@ workflows:
       - test_job_1:
           pre-steps: *setup
       - test_job_2:
+          pre-steps: *setup
+      - test_job_3:
           pre-steps: *setup
