@@ -27,26 +27,6 @@ executors:
       image: ubuntu-1604:201903-01
 
 jobs:
-  build:
-    executor: ubuntu
-    steps:
-      - run:
-          name: Pull roles from repository
-          command: |
-            pip install python-gilt
-            gilt overlay
-      - run:
-          name: Build a container
-          command: sudo -E ansible-playbook build.yml provision.yml cleanup.yml
-  push:
-    executor: ubuntu
-    steps:
-      - run:
-          name: Create a barebones container
-          command: buildah from --name foo scratch
-      - run:
-          name: Write a new image and push it to registry
-          command: ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
   test_job_1:
     executor: ubuntu
     steps:
@@ -79,16 +59,6 @@ jobs:
 workflows:
   pull_request:
     jobs:
-      - build:
-          filters:
-            branches:
-              ignore: master
-          pre-steps: *setup
-      - push:
-          filters:
-            branches:
-              ignore: master
-          pre-steps: *setup
       - test_job_1:
           pre-steps: *setup
       - test_job_2:
