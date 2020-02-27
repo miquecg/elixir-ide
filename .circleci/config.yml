@@ -1,12 +1,11 @@
-aliases:
-  - &setup
-      - install-deps
-      - checkout
-
 version: 2.1
 
 commands:
   install-deps:
+    parameters:
+      pull-roles:
+        type: boolean
+        default: true
     steps:
       - run:
           name: Add repositories with Ansible and buildah packages
@@ -20,6 +19,15 @@ commands:
       - run:
           name: Install dependencies
           command: sudo apt --yes install ansible buildah
+      - checkout
+      - when:
+          condition: << parameters.pull-roles >>
+          steps:
+            - run:
+                name: Pull roles from repository
+                command: |
+                  pip install python-gilt
+                  gilt overlay
 
 executors:
   ubuntu:
@@ -30,11 +38,6 @@ jobs:
   build:
     executor: ubuntu
     steps:
-      - run:
-          name: Pull roles from repository
-          command: |
-            pip install python-gilt
-            gilt overlay
       - run:
           name: Build a container
           command: sudo ansible-playbook build.yml provision.yml cleanup.yml
@@ -51,11 +54,6 @@ jobs:
     executor: ubuntu
     steps:
       - run:
-          name: Pull roles from repository
-          command: |
-            pip install python-gilt
-            gilt overlay
-      - run:
           name: Run main.yml playbook
           command: sudo -E ansible-playbook main.yml
 
@@ -66,16 +64,20 @@ workflows:
           filters:
             branches:
               ignore: master
-          pre-steps: *setup
+          pre-steps:
+            - install-deps
       - push:
           filters:
             branches:
               ignore: master
-          pre-steps: *setup
+          pre-steps:
+            - install-deps:
+                pull-roles: false
   merge:
     jobs:
       - main:
           filters:
             branches:
               only: master
-          pre-steps: *setup
+          pre-steps:
+            - install-deps
