@@ -47,6 +47,17 @@ jobs:
       - run:
           name: Write a new image and push it to registry
           command: ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
+  main:
+    executor: ubuntu
+    steps:
+      - run:
+          name: Pull roles from repository
+          command: |
+            pip install python-gilt
+            gilt overlay
+      - run:
+          name: Run main.yml playbook
+          command: sudo -E ansible-playbook main.yml
 
 workflows:
   pull_request:
@@ -60,4 +71,11 @@ workflows:
           filters:
             branches:
               ignore: master
+          pre-steps: *setup
+  merge:
+    jobs:
+      - main:
+          filters:
+            branches:
+              only: master
           pre-steps: *setup
