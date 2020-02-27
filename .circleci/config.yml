@@ -37,7 +37,7 @@ jobs:
             gilt overlay
       - run:
           name: Build a container
-          command: sudo -E ansible-playbook build.yml provision.yml cleanup.yml
+          command: sudo ansible-playbook build.yml provision.yml cleanup.yml
   push:
     executor: ubuntu
     steps:
