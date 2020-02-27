@@ -1,7 +1,6 @@
 # Source this file to load variables in the environment
 export ANSIBLE_CACHE_PLUGIN=jsonfile
 export ANSIBLE_CACHE_PLUGIN_CONNECTION=.cache/ansible_facts
-export CIRCLE_API_USER_TOKEN=
 export IMAGE_NAME=
 export REGISTRY_HOST=
 export REGISTRY_USER=
