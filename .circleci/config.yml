@@ -48,7 +48,7 @@ jobs:
           name: Create a barebones container
           command: buildah from --name foo scratch
       - run:
-          name: Write a new image and push it to registry
+          name: Save container image on a remote registry
           command: ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
   main:
     executor: ubuntu
