@@ -1,83 +1,17 @@
 version: 2.1
 
-commands:
-  install-deps:
-    parameters:
-      pull-roles:
-        type: boolean
-        default: true
-    steps:
-      - run:
-          name: Add repositories with Ansible and buildah packages
-          shell: sudo /bin/bash -eo pipefail
-          command: |
-            apt update
-            apt --yes install software-properties-common
-            apt-add-repository --yes ppa:ansible/ansible
-            apt-add-repository --yes ppa:projectatomic/ppa
-            apt update
-      - run:
-          name: Install dependencies
-          command: sudo apt --yes install ansible buildah
-      - checkout
-      - when:
-          condition: << parameters.pull-roles >>
-          steps:
-            - run:
-                name: Pull roles from repository
-                command: |
-                  pip install python-gilt
-                  gilt overlay
-
 executors:
   ubuntu:
     machine:
       image: ubuntu-1604:201903-01
 
 jobs:
-  build:
+  test-docker:
     executor: ubuntu
     steps:
-      - run:
-          name: Build a container
-          command: sudo ansible-playbook build.yml provision.yml cleanup.yml
-  push:
-    executor: ubuntu
-    steps:
-      - run:
-          name: Create a barebones container
-          command: buildah from --name foo scratch
-      - run:
-          name: Save container image on a remote registry
-          command: ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
-  main:
-    executor: ubuntu
-    steps:
-      - run:
-          name: Run main.yml playbook
-          command: sudo -E ansible-playbook main.yml
+      - checkout
 
 workflows:
   pull_request:
     jobs:
-      - build:
-          filters:
-            branches:
-              ignore: master
-          pre-steps:
-            - install-deps
-      - push:
-          filters:
-            branches:
-              ignore: master
-          pre-steps:
-            - install-deps:
-                pull-roles: false
-  merge:
-    jobs:
-      - main:
-          filters:
-            branches:
-              only: master
-          pre-steps:
-            - install-deps
+      - test-docker
