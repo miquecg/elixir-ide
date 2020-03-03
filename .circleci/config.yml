@@ -11,6 +11,7 @@ jobs:
     steps:
       - checkout
       - run: docker pull quay.io/buildah/stable:latest
+      - run: docker images
       - run: mkdir mycontainer
       - run: docker run --detach --name=buildahctr --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z stable sh -c 'while true; do sleep 100000; done'
       - run: docker ps
