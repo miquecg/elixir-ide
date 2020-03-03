@@ -12,12 +12,11 @@ jobs:
       - checkout
       - run: docker pull quay.io/buildah/stable:latest
       - run: docker images
-      - run: mkdir mycontainer
-      - run: docker run --detach --name=buildahctr --net=host --privileged -v ~/project/mycontainer:/var/lib/containers:Z quay.io/buildah/stable sh -c 'while true; do sleep 100000; done'
+      - run: mkdir ~/mycontainer
+      - run: docker run --detach --name=buildahctr --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z -v ~/project:/home/build/elixir-ide quay.io/buildah/stable sh -c 'while true; do sleep 100000; done'
       - run: docker ps
-      - run: docker exec buildahctr buildah from alpine
       - run: ls -la ~
-      - run: ls -la ~/project
+      - run: docker exec buildahctr ls -la /home/build/elixir-ide
 
 workflows:
   pull_request:
