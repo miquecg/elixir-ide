@@ -16,7 +16,8 @@ jobs:
       - run: docker run --detach --name=buildahctr --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z quay.io/buildah/stable sh -c 'while true; do sleep 100000; done'
       - run: docker ps
       - run: docker exec buildahctr buildah from alpine
-      - run: ls -la mycontainer/storage/overlay
+      - run: pwd
+      - run: ls -la ~
 
 workflows:
   pull_request:
