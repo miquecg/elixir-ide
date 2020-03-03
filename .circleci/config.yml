@@ -18,6 +18,7 @@ jobs:
       - run: docker exec buildahctr dnf -y install ansible python python-pip git
       - run: docker exec buildahctr pip install python-gilt
       - run: docker exec -w /home/build/elixir-ide buildahctr gilt overlay
+      - run: docker exec -w /home/build/elixir-ide buildahctr ansible-playbook build.yml
 
 workflows:
   pull_request:
