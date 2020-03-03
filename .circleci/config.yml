@@ -10,6 +10,12 @@ jobs:
     executor: ubuntu
     steps:
       - checkout
+      - run: docker pull docker://quay.io/buildah/stable:latest
+      - run: mkdir mycontainer
+      - run: docker run --detach --name=buildahctr --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z stable sh -c 'while true; do sleep 100000; done'
+      - run: docker ps
+      - run: docker exec buildahctr buildah from alpine
+      - run: ls -la mycontainer/storage/overlay
 
 workflows:
   pull_request:
