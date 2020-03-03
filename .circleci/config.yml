@@ -16,6 +16,8 @@ jobs:
       - run: docker run --detach --name=buildahctr --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z -v ~/project:/home/build/elixir-ide quay.io/buildah/stable sh -c 'while true; do sleep 100000; done'
       - run: docker ps
       - run: docker exec buildahctr dnf -y install ansible python python-pip git
+      - run: docker exec buildahctr pip install python-gilt
+      - run: docker exec -w /home/build/elixir-ide buildahctr gilt overlay
 
 workflows:
   pull_request:
