@@ -1,5 +1,11 @@
 FROM quay.io/buildah/stable
 
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["run", "main.yml"]
+
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 RUN dnf -y install \
   ansible \
   python \
@@ -9,9 +15,3 @@ RUN dnf -y install \
 
 RUN pip install python-gilt \
   && rm -rf /root/.cache
-
-COPY entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
-ENTRYPOINT ["entrypoint.sh"]
-CMD ["run", "main.yml"]
