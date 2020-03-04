@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 
-CMD=$1
+CMD="$1"
 
 case "$CMD" in
   "run" )
-    [ -d "$BUILD_DIR" ] && cd $BUILD_DIR
-    exec ansible-playbook ${@:2}
+    [ -d "$BUILD_DIR" ] && cd "$BUILD_DIR"
+    exec ansible-playbook "${@:2}"
     ;;
   * )
     # Run custom command
