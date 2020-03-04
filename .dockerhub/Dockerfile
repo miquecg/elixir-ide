@@ -9,9 +9,4 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN dnf -y install \
   ansible \
   python \
-  python-pip \
-  git \
   && rm -rf /var/cache /var/log/dnf*
-
-RUN pip install python-gilt \
-  && rm -rf /root/.cache
