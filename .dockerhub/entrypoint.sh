@@ -9,6 +9,6 @@ case "$CMD" in
     ;;
   * )
     # Run custom command
-    exec $CMD ${@:2}
+    exec "$@"
     ;;
 esac
