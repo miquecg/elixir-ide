@@ -19,6 +19,24 @@ commands:
                 command: |
                   pip install python-gilt
                   gilt overlay
+  docker-run:
+    parameters:
+      task-name:
+        type: string
+        default: Run main.yml playbook
+      env-option:
+        type: string
+        default: --env BUILD_DIR
+      extra-options:
+        type: string
+        default: ""
+      command:
+        type: string
+        default: ""
+    steps:
+      - run:
+          name: << parameters.task-name >>
+          command: docker run --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z -v ~/project:$BUILD_DIR << parameters.env-option >> << parameters.extra-options >> docker.io/miquecg/ansible-buildah << parameters.command >>
 
 executors:
   ubuntu:
@@ -29,9 +47,9 @@ jobs:
   build:
     executor: ubuntu
     steps:
-      - run:
-          name: "Run playbooks: build.yml, provision.yml and cleanup.yml"
-          command: docker run --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z -v ~/project:$BUILD_DIR --env BUILD_DIR docker.io/miquecg/ansible-buildah run build.yml provision.yml cleanup.yml
+      - docker-run:
+          task-name: "Run playbooks: build.yml, provision.yml and cleanup.yml"
+          command: run build.yml provision.yml cleanup.yml
   push:
     executor: ubuntu
     steps:
