@@ -1,24 +1,12 @@
 version: 2.1
 
 commands:
-  install-deps:
+  setup:
     parameters:
       pull-roles:
         type: boolean
         default: true
     steps:
-      - run:
-          name: Add repositories with Ansible and buildah packages
-          shell: sudo /bin/bash -eo pipefail
-          command: |
-            apt update
-            apt --yes install software-properties-common
-            apt-add-repository --yes ppa:ansible/ansible
-            apt-add-repository --yes ppa:projectatomic/ppa
-            apt update
-      - run:
-          name: Install dependencies
-          command: sudo apt --yes install ansible buildah
       - checkout
       - when:
           condition: << parameters.pull-roles >>
@@ -65,13 +53,13 @@ workflows:
             branches:
               ignore: master
           pre-steps:
-            - install-deps
+            - setup
       - push:
           filters:
             branches:
               ignore: master
           pre-steps:
-            - install-deps:
+            - setup:
                 pull-roles: false
   merge:
     jobs:
@@ -80,4 +68,4 @@ workflows:
             branches:
               only: master
           pre-steps:
-            - install-deps
+            - setup
