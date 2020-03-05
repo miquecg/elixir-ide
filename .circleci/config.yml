@@ -24,19 +24,16 @@ commands:
       task-name:
         type: string
         default: Run main.yml playbook
-      env-option:
-        type: string
-        default: --env BUILD_DIR
       extra-options:
         type: string
-        default: ""
+        default: --env BUILD_DIR
       command:
         type: string
         default: ""
     steps:
       - run:
           name: << parameters.task-name >>
-          command: docker run --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z -v ~/project:$BUILD_DIR << parameters.env-option >> << parameters.extra-options >> docker.io/miquecg/ansible-buildah << parameters.command >>
+          command: docker run --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z -v ~/project:$BUILD_DIR << parameters.extra-options >> docker.io/miquecg/ansible-buildah << parameters.command >>
 
 executors:
   ubuntu:
@@ -55,8 +52,7 @@ jobs:
     steps:
       - docker-run:
           task-name: Run detached container to execute next steps
-          env-option: --env-file .circleci/env.list
-          extra-options: --detach --name=runner
+          extra-options: --env-file .circleci/env.list --detach --name=runner
           command: sh -c 'while true ; do sleep 100000 ; done'
       - run:
           name: Create a barebones container
