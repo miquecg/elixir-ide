@@ -63,9 +63,7 @@ jobs:
   main:
     executor: ubuntu
     steps:
-      - run:
-          name: Run main.yml playbook
-          command: docker run --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z -v ~/project:$BUILD_DIR --env BUILD_DIR docker.io/miquecg/ansible-buildah
+      - docker-run
 
 workflows:
   pull_request:
