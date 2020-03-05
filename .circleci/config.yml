@@ -7,6 +7,9 @@ commands:
         type: boolean
         default: true
     steps:
+      - run:
+          name: Create a directory to mount containers' overlay file system
+          command: mkdir ~/mycontainer
       - checkout
       - when:
           condition: << parameters.pull-roles >>
