@@ -30,11 +30,7 @@ jobs:
     executor: ubuntu
     steps:
       - run:
-          name: |
-            "Run playbooks:"
-            " build.yml"
-            " provision.yml"
-            " cleanup.yml"
+          name: "Run playbooks: build.yml, provision.yml and cleanup.yml"
           command: docker run --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z -v ~/project:$BUILD_DIR --env BUILD_DIR docker.io/miquecg/ansible-buildah run build.yml provision.yml cleanup.yml
   push:
     executor: ubuntu
