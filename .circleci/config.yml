@@ -36,11 +36,14 @@ jobs:
     executor: ubuntu
     steps:
       - run:
-          name: Create a barebones container
-          command: buildah from --name foo scratch
+          name: Run detached container to execute next steps
+          command: docker run --detach --name=runner --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z -v ~/project:$BUILD_DIR docker.io/miquecg/ansible-buildah sh -c 'while true ; do sleep 100000 ; done'
       - run:
-          name: Save container image on a remote registry
-          command: ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
+          name: Create a barebones container
+          command: docker exec -w $BUILD_DIR runner buildah from --name foo scratch
+      - run:
+          name: Save its image on a remote registry
+          command: docker exec -w $BUILD_DIR runner ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
   main:
     executor: ubuntu
     steps:
