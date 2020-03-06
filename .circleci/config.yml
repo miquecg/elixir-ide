@@ -67,10 +67,14 @@ jobs:
           command: sh -c 'while true ; do sleep 100000 ; done'
       - run:
           name: Create a barebones container
-          command: docker exec runner buildah from --name foo scratch
+          command: >
+            docker exec runner
+            buildah from --name foo scratch
       - run:
           name: Save its image on a remote registry
-          command: docker exec -w $WORKDIR runner ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
+          command: >
+            docker exec -w $WORKDIR runner
+            ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
           environment:
             WORKDIR: *project_mount
   main:
