@@ -1,24 +1,12 @@
 version: 2.1
 
 commands:
-  install-deps:
+  setup:
     parameters:
       pull-roles:
         type: boolean
         default: true
     steps:
-      - run:
-          name: Add repositories with Ansible and buildah packages
-          shell: sudo /bin/bash -eo pipefail
-          command: |
-            apt update
-            apt --yes install software-properties-common
-            apt-add-repository --yes ppa:ansible/ansible
-            apt-add-repository --yes ppa:projectatomic/ppa
-            apt update
-      - run:
-          name: Install dependencies
-          command: sudo apt --yes install ansible buildah
       - checkout
       - when:
           condition: << parameters.pull-roles >>
@@ -28,6 +16,35 @@ commands:
                 command: |
                   pip install python-gilt
                   gilt overlay
+  docker-run:
+    parameters:
+      task-name:
+        type: string
+        default: Run main.yml playbook
+      extra-options:
+        type: string
+        default: ""
+      command:
+        type: string
+        default: ""
+    steps:
+      - run:
+          name: Create a directory to mount containers' overlay file system
+          command: mkdir ~/mycontainer
+      - run:
+          name: << parameters.task-name >>
+          command: >
+            docker run
+            --net=host
+            --privileged
+            -v ~/mycontainer:/var/lib/containers:Z
+            -v ~/project:${BUILD_DIR}
+            --env BUILD_DIR
+            << parameters.extra-options >>
+            docker.io/miquecg/ansible-buildah
+            << parameters.command >>
+          environment:
+            BUILD_DIR: &project_mount /home/build/elixir-ide
 
 executors:
   ubuntu:
@@ -38,24 +55,32 @@ jobs:
   build:
     executor: ubuntu
     steps:
-      - run:
-          name: Build a container
-          command: sudo ansible-playbook build.yml provision.yml cleanup.yml
+      - docker-run:
+          task-name: "Run playbooks: build.yml, provision.yml and cleanup.yml"
+          command: run build.yml provision.yml cleanup.yml
   push:
     executor: ubuntu
     steps:
+      - docker-run:
+          task-name: Run detached container to execute next steps
+          extra-options: --env-file .circleci/env.list --detach --name=runner
+          command: sh -c 'while true ; do sleep 100000 ; done'
       - run:
           name: Create a barebones container
-          command: buildah from --name foo scratch
+          command: >
+            docker exec runner
+            buildah from --name foo scratch
       - run:
-          name: Save container image on a remote registry
-          command: ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
+          name: Save its image on a remote registry
+          command: >
+            docker exec -w $WORKDIR runner
+            ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
+          environment:
+            WORKDIR: *project_mount
   main:
     executor: ubuntu
     steps:
-      - run:
-          name: Run main.yml playbook
-          command: sudo -E ansible-playbook main.yml
+      - docker-run
 
 workflows:
   pull_request:
@@ -65,13 +90,13 @@ workflows:
             branches:
               ignore: master
           pre-steps:
-            - install-deps
+            - setup
       - push:
           filters:
             branches:
               ignore: master
           pre-steps:
-            - install-deps:
+            - setup:
                 pull-roles: false
   merge:
     jobs:
@@ -80,4 +105,4 @@ workflows:
             branches:
               only: master
           pre-steps:
-            - install-deps
+            - setup
