@@ -33,7 +33,16 @@ commands:
           command: mkdir ~/mycontainer
       - run:
           name: << parameters.task-name >>
-          command: docker run --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z -v ~/project:${BUILD_DIR} --env BUILD_DIR << parameters.extra-options >> docker.io/miquecg/ansible-buildah << parameters.command >>
+          command: >
+            docker run
+            --net=host
+            --privileged
+            -v ~/mycontainer:/var/lib/containers:Z
+            -v ~/project:${BUILD_DIR}
+            --env BUILD_DIR
+            << parameters.extra-options >>
+            docker.io/miquecg/ansible-buildah
+            << parameters.command >>
           environment:
             BUILD_DIR: &working_dir /home/build/elixir-ide
 
