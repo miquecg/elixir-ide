@@ -39,7 +39,7 @@ commands:
             --privileged
             -v ~/mycontainer:/var/lib/containers:Z
             -v ~/project:${BUILD_DIR}
-            --env BUILD_DIR
+            --env-file .circleci/env.list
             << parameters.extra-options >>
             docker.io/miquecg/ansible-buildah
             << parameters.command >>
@@ -63,7 +63,7 @@ jobs:
     steps:
       - docker-run:
           task-name: Run detached container to execute next steps
-          extra-options: --env-file .circleci/env.list --detach --name=runner
+          extra-options: --detach --name=runner
           command: sh -c 'while true ; do sleep 100000 ; done'
       - run:
           name: Create a barebones container
