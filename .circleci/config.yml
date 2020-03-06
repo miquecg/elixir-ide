@@ -7,9 +7,6 @@ commands:
         type: boolean
         default: true
     steps:
-      - run:
-          name: Create a directory to mount containers' overlay file system
-          command: mkdir ~/mycontainer
       - checkout
       - when:
           condition: << parameters.pull-roles >>
@@ -31,6 +28,9 @@ commands:
         type: string
         default: ""
     steps:
+      - run:
+          name: Create a directory to mount containers' overlay file system
+          command: mkdir ~/mycontainer
       - run:
           name: << parameters.task-name >>
           command: docker run --net=host --privileged -v ~/mycontainer:/var/lib/containers:Z -v ~/project:${BUILD_DIR} --env BUILD_DIR << parameters.extra-options >> docker.io/miquecg/ansible-buildah << parameters.command >>
