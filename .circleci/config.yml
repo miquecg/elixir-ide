@@ -44,7 +44,7 @@ commands:
             docker.io/miquecg/ansible-buildah
             << parameters.command >>
           environment:
-            BUILD_DIR: &working_dir /home/build/elixir-ide
+            BUILD_DIR: &project_mount /home/build/elixir-ide
 
 executors:
   ubuntu:
@@ -70,7 +70,9 @@ jobs:
           command: docker exec runner buildah from --name foo scratch
       - run:
           name: Save its image on a remote registry
-          command: docker exec -w *working_dir runner ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
+          command: docker exec -w $WORKDIR runner ansible-playbook commit.yml --extra-vars "container=foo tag=1.23.45"
+          environment:
+            WORKDIR: *project_mount
   main:
     executor: ubuntu
     steps:
