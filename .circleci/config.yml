@@ -35,7 +35,6 @@ commands:
           name: << parameters.task-name >>
           command: >
             docker run
-            --net=host
             --privileged
             -v ~/mycontainer:/var/lib/containers:Z
             -v ~/project:${BUILD_DIR}
