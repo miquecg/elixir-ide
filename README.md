@@ -18,6 +18,15 @@ Inspiration came from a blog post in Medium.
 - Store it on a [Docker Hub](https://hub.docker.com/) repository
 - Automate the whole process with [Ansible](https://github.com/ansible/ansible)
 
+## Usage example
+
+```
+$ podman run -it --userns keep-id -v ~/Projects:/home/devel/Projects elixir-ide
+```
+
+> keep-id: creates a user namespace where the current rootless user's UID:GID are mapped to the
+same values in the container. This option is ignored for containers created by the root user.
+
 ## Actions on the host
 
 ### Rootless containers
