@@ -14,6 +14,7 @@ commands:
             - run:
                 name: Pull roles from repository
                 command: |
+                  pyenv global 3.7.0
                   pip install python-gilt
                   gilt overlay
   docker-run:
